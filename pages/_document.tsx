@@ -15,10 +15,10 @@ export default function Document() {
 				/>
 				<link
 					rel="stylesheet"
-					href="https://video-react.github.io/assets/video-react.css"
-				/>
-				 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"></link>
-				 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
+					href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"></link>
+				<link
+					rel="stylesheet"
+					href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
 			</Head>
 			<body>
 				<Main />
