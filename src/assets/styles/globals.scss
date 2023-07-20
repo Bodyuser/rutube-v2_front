@@ -1,0 +1,63 @@
+@import "variables";
+@import "react-redux-toastr/src/styles/index";
+@import "./text-editor.scss";
+@import "./react-select.scss";
+@import "./video-player.scss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  background: $bg-color;
+  color: #fff;
+  font-family: "Montserrat", sans-serif;
+}
+
+button, input {
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+button {
+  cursor: pointer;
+  appearance: none;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.rti--container {
+  background-color: transparent !important;
+  border: 1px solid #3d4a58 !important;
+  border-radius: 6px !important;
+  line-height: 18px !important;
+  gap: 10px !important;
+	padding: 10px 11px !important;
+
+  &:focus-within {
+    box-shadow: none !important;
+  }
+}
+
+.video-react-controls-enabled {
+  height: 500px !important;
+  padding: 0 !important;
+  width: 800px !important;
+  > video {
+  }
+}
+
+
+pre {
+  background: transparent !important;
+  border: 1px solid $button-bg;
+  max-height: 400px;
+  overflow: scroll;
+}

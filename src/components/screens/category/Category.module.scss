@@ -1,0 +1,18 @@
+.category {
+  > h2 {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 30px;
+  }
+  > div {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+
+    > .empty {
+      font-size: 12px;
+      display: block;
+      margin: 0 auto;
+    }
+  }
+}

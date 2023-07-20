@@ -1,0 +1,130 @@
+.custom-select__control {
+	background-color: transparent !important;
+	border: 1px solid #3d4a58 !important;
+	border-radius: 6px !important;
+	box-shadow: none !important;
+	width: 100& !important;
+	line-height: 18px;
+	padding: 10px 11px;
+}
+
+.css-13cymwt-control {
+	width: 100% !important;
+}
+
+.css-t3ipsp-control {
+	width: 100% !important;
+}
+
+.custom-select__control--menu-is-open {
+	border-color: #3d4a58 !important;
+	width: 100% !important;
+}
+
+.custom-select__placeholder {
+	color: #fff !important;
+	font-size: 12px !important;
+	margin: 0 !important;
+}
+
+.custom-select__value-container {
+	cursor: pointer !important;
+	padding: 0 !important;
+}
+
+.custom-select__input-container {
+	color: #fff !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.custom-select__single-value {
+	color: #fff !important;
+	font-size: 12px !important;
+}
+
+.custom-select__indicator-separator {
+	display: none !important;
+}
+
+.custom-select__indicators {
+	cursor: pointer !important;
+}
+
+.custom-select__indicator {
+	color: #fff !important;
+	padding: 0 0 0 25px !important;
+	transition: 0.3s ease-in-out all !important;
+}
+.custom-select__indicator:hover {
+	color: #fff !important;
+}
+
+.custom-select__multi-value {
+	background-color: $button-bg !important;
+}
+.custom-select__multi-value__label {
+	font-size: 12px !important;
+	color: #fff !important;
+}
+.custom-select__multi-value__remove {
+	color: #fff !important;
+	background-color: transparent !important;
+}
+
+.custom-select__multi-value__remove:hover {
+	background-color: transparent !important;
+}
+
+.custom-select__menu {
+	background-color: $gray !important;
+	width: 100% !important;
+}
+.custom-select__menu::-webkit-scrollbar {
+	width: 0 !important;
+	height: 0 !important;
+}
+
+.custom-select__option {
+	cursor: pointer !important;
+	color: #fff !important;
+	font-size: 12px !important;
+}
+
+.custom-select__option--is-focused {
+	background: $button-bg !important;
+	width: 100% !important;
+}
+.custom-select__option--is-selected {
+	background: $button-bg !important;
+}
+
+.custom-select {
+	color: $gray !important;
+}
+
+*::-webkit-scrollbar {
+	display: none;
+}
+
+.custom-select-container
+	.form-control__indicators {
+	cursor: pointer !important;
+}
+
+.custom-select-container > div {
+	outline: none !important;
+	box-shadow: none !important;
+}
+
+.custom-select-container
+	.form-control__control {
+	border-color: $gray !important;
+	box-shadow: none !important;
+}
+
+.custom-select-container:hover,
+.custom-select-container--menu-is-open {
+	border-color: $button-bg !important;
+	width: 100% !important;
+}

@@ -1,0 +1,21 @@
+@import "variables";
+
+.button {
+	background: $button-bg;
+	color: #fff;
+	border-color: $button-bg;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 17.52px;
+	min-width: 68px;
+	padding: 11px 16px;
+  border: 1px solid transparent;
+  user-select: none;
+  border-radius: 6px;
+
+	&.secondary {
+		border: 1px solid $gray;
+		color: $gray;
+		background-color: transparent;
+	}
+}

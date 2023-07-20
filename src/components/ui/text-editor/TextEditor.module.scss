@@ -1,0 +1,36 @@
+@import "variables";
+
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	color: #fff;
+	.editorWrapper {
+		width: 100%;
+		border: 1px solid #3d4a58;
+		border-radius: 6px;
+	}
+	.toolbar {
+		z-index: 10;
+		display: flex;
+		justify-content: space-between;
+		box-shadow: none;
+		border-bottom: 1px solid #3d4a58 !important;
+		div {
+			background-color: $button-bg;
+			outline: none;
+			box-shadow: none;
+			z-index: 2;
+			div {
+				z-index: 5;
+				background-color: $button-bg;
+			}
+		}
+	}
+	.editor {
+		padding: 0 11px;
+		min-height: 100px;
+		}
+	.error {
+		color: #f00;
+	}
+}

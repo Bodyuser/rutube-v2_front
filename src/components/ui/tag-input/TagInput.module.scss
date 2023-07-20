@@ -1,0 +1,25 @@
+@import "variables";
+
+.tagInput {
+	width: 100%;
+	.input {
+		background-color: transparent;
+		color: #fff;
+	}
+	.tag {
+		background-color: $button-bg;
+		font-size: 12px !important;
+		> button {
+			color: #3d4a58 !important;
+			&:hover {
+			}
+		}
+	}
+	> span {
+		color: red;
+		font-size: 10px;
+		font-weight: 600;
+		line-height: 16px;
+		margin-top: 4px;
+	}
+}

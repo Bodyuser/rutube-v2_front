@@ -1,0 +1,105 @@
+@import "variables";
+
+.about {
+	display: flex;
+	flex-direction: column;
+
+	> .header {
+		display: flex;
+		height: 450px;
+		width: 100%;
+		justify-content: space-between;
+		align-items: flex-end;
+		border-radius: 6px;
+		background-size: 100% 100%;
+		overflow: hidden;
+		background-repeat: no-repeat;
+
+		> .info {
+			display: flex;
+			align-items: center;
+			gap: 16px;
+			padding: 20px;
+
+			> .avatar {
+				width: 80px;
+				height: 80px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background-color: #fff;
+				border-radius: 50%;
+				overflow: hidden;
+				> img {
+					width: 72px;
+					border-radius: 50%;
+					height: 72px;
+				}
+			}
+
+			> .name {
+				display: flex;
+				flex-direction: column;
+
+				> span:first-child {
+					font-size: 36px;
+					line-height: 45px;
+					font-weight: 600;
+				}
+
+				> span:last-child {
+					font-size: 12px;
+					color: $gray;
+					line-height: 17px;
+				}
+			}
+		}
+
+		> .btn {
+			padding: 20px;
+		}
+	}
+
+	> .other {
+		margin-top: 20px;
+		> .tabs {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 30px;
+			> a {
+				color: #fff;
+			}
+			> .active {
+				background-color: $button-bg;
+				color: #fff;
+				border-color: $button-bg;
+				font-size: 12px;
+				font-weight: 600;
+				line-height: 17.52px;
+				min-width: 68px;
+				padding: 11px 16px;
+				border: 1px solid transparent;
+				user-select: none;
+				border-radius: 6px;
+			}
+		}
+
+		> .aboutPerson {
+			margin-top: 20px;
+			display: flex;
+			font-size: 12px;
+
+			> div {
+				border-radius: 8px 8px 8px 8px;
+				flex-shrink: 0;
+				background-color: $search-border-color;
+				display: flex;
+				justify-content: space-between;
+				padding: 16px;
+				margin: 0 0 0 32px;
+				width: 382px;
+			}
+		}
+	}
+}
