@@ -61,6 +61,10 @@ export const CategoriesService = {
     return (await axiosClassic.get<{categories: ICategory[]}>(getCategoriesUrl(""))).data.categories
   },
   async getCategory(slug: string) {
-    return (await axiosClassic.get<{category: ICategory}>(getCategoriesUrl(slug))).data.category
+    return (
+			await axiosClassic.get<ICategoryResponse>(
+				getCategoriesUrl(slug)
+			)
+		).data.category
   },
 }

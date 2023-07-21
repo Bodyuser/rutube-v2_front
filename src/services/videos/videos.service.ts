@@ -6,14 +6,15 @@ import { IMessageResponse } from "@/shared/types/message-response.types"
 import { ICategory } from "@/shared/types/category/category.types"
 import { IGlobalUser } from "@/shared/types/user/user.types"
 
-const getVideoUrl = (url: string) => `/videos/${url}`
+const getVideosUrl = (url: string) =>
+	`/videos/${url}`
 
 interface IVideosResponse {
-  videos: IVideo[]
+	videos: IVideo[]
 }
 
 interface IVideoResponse {
-  video: IVideo
+	video: IVideo
 }
 
 export const VideosService = {
@@ -22,7 +23,7 @@ export const VideosService = {
 	) {
 		return (
 			await axiosInstance.post<IVideoResponse>(
-				getVideoUrl(""),
+				getVideosUrl(""),
 				data
 			)
 		).data.video
@@ -33,7 +34,7 @@ export const VideosService = {
 	) {
 		return (
 			await axiosInstance.put<IVideoResponse>(
-				getVideoUrl(id),
+				getVideosUrl(id),
 				data
 			)
 		).data.video
@@ -41,21 +42,23 @@ export const VideosService = {
 	async deleteVideo(id: string) {
 		return (
 			await axiosInstance.delete<IMessageResponse>(
-				getVideoUrl(id)
+				getVideosUrl(id)
 			)
 		).data.message
 	},
 	async toggleLikeVideo(id: string) {
 		return (
 			await axiosInstance.patch<IVideoResponse>(
-				getVideoUrl(`toggle-like/${id}`)
+				getVideosUrl(
+					`toggle-like/${id}`
+				)
 			)
 		).data.video
 	},
 	async toggleDisLikeVideo(id: string) {
 		return (
 			await axiosInstance.patch<IVideoResponse>(
-				getVideoUrl(
+				getVideosUrl(
 					`toggle-dislike/${id}`
 				)
 			)
@@ -64,7 +67,7 @@ export const VideosService = {
 	async viewVideo(id: string) {
 		return (
 			await axiosClassic.patch<IVideoResponse>(
-				getVideoUrl(`view-video/${id}`)
+				getVideosUrl(`view-video/${id}`)
 			)
 		).data.video
 	},
@@ -77,7 +80,7 @@ export const VideosService = {
 					access: boolean
 				}
 			>(
-				getVideoUrl(
+				getVideosUrl(
 					`existing-slug/${slug}`
 				)
 			)
@@ -86,21 +89,21 @@ export const VideosService = {
 	async getSearchList() {
 		return (
 			await axiosClassic.get<string[]>(
-				getVideoUrl("search-list")
+				getVideosUrl("search-list")
 			)
 		).data
 	},
 	async getTopVideos() {
 		return (
 			await axiosClassic.get<IVideosResponse>(
-				getVideoUrl("top")
+				getVideosUrl("top")
 			)
 		).data.videos
 	},
 	async getNewestVideos() {
 		return (
 			await axiosClassic.get<IVideosResponse>(
-				getVideoUrl("newest")
+				getVideosUrl("newest")
 			)
 		).data.videos
 	},
@@ -109,14 +112,14 @@ export const VideosService = {
 	) {
 		return (
 			await axiosClassic.get<IVideosResponse>(
-				getVideoUrl(`category/${id}`)
+				getVideosUrl(`category/${id}`)
 			)
 		).data.videos
 	},
 	async getRecommendationVideos() {
 		return (
 			await axiosInstance.get<IVideosResponse>(
-				getVideoUrl(`recommendation`)
+				getVideosUrl(`recommendation`)
 			)
 		).data.videos
 	},
@@ -126,7 +129,7 @@ export const VideosService = {
 				({
 					category: ICategory
 				} & IVideosResponse)[]
-			>(getVideoUrl(`category-videos`))
+			>(getVideosUrl(`category-videos`))
 		).data
 	},
 	async getAllVideos(
@@ -137,7 +140,7 @@ export const VideosService = {
 				IVideosResponse & {
 					users: IGlobalUser[]
 				}
-			>(getVideoUrl(""), {
+			>(getVideosUrl(""), {
 				params: data,
 			})
 		).data
@@ -145,21 +148,21 @@ export const VideosService = {
 	async getVideoBySlug(slug: string) {
 		return (
 			await axiosClassic.get<IVideoResponse>(
-				getVideoUrl(slug)
+				getVideosUrl(slug)
 			)
 		).data.video
 	},
 	async getVideosByProfile() {
 		return (
 			await axiosInstance.get<IVideosResponse>(
-				getVideoUrl("profile")
+				getVideosUrl("profile")
 			)
 		).data.videos
 	},
 	async getVideosByUser(id: string) {
 		return (
 			await axiosClassic.get<IVideosResponse>(
-				getVideoUrl(`user/${id}`)
+				getVideosUrl(`user/${id}`)
 			)
 		).data.videos
 	},
