@@ -1,6 +1,9 @@
 import { axiosClassic } from "@/api/axios-classic"
 import { IVideo } from "@/shared/types/video/video.types"
-import {ICreateVideo, IUpdateVideo, IGetAllVideos} from "./videos.types"
+import {
+	ICreateVideo,
+	IUpdateVideo,
+} from "./videos.types"
 import { axiosInstance } from "@/api/axios-instance"
 import { IMessageResponse } from "@/shared/types/message-response.types"
 import { ICategory } from "@/shared/types/category/category.types"
@@ -123,19 +126,6 @@ export const VideosService = {
 					category: ICategory
 				} & IVideosResponse)[]
 			>(getVideosUrl(`category-videos`))
-		).data
-	},
-	async getAllVideos(
-		data: IGetAllVideos
-	) {
-		return (
-			await axiosClassic.get<
-				IVideosResponse & {
-					users: IGlobalUser[]
-				}
-			>(getVideosUrl(""), {
-				params: data,
-			})
 		).data
 	},
 	async getVideoBySlug(slug: string) {
