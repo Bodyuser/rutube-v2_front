@@ -7,7 +7,11 @@ import {useTypedSelector} from "@/hooks/useTypedSelector"
 
 import {TypeComponentAuthField} from "@/shared/types/props-page/props-page.types"
 import { useAppDispatch } from "@/hooks/useAppDispatch"
-import { setSocket } from "@/redux/components/user/users/users.slice"
+import {
+	setIsJoin,
+	setSocket,
+} from "@/redux/components/user/users/users.slice"
+import { useSocket } from "@/utils/socket/socket"
 
 const DynamicCheckRole = dynamic(
 	() =>
@@ -33,19 +37,24 @@ const AuthProvider: FC<
 		(state) => state.users
 	)
 
-// const {socket} = useSocket()
+const { socket } = useSocket()
 
-// const dispatch = useAppDispatch()
+const dispatch = useAppDispatch()
 
-// 	useEffect(() => {
-// 		if(!isJoin && isAuth && user && socket) {
-// 			dispatch(setSocket(socket))
-// 			socket.emit("join", {
-// 				id: user.id
-// 			})
-// 			dispatch(setIsJoin(true))
-// 		}
-// 	}, [isAuth, user, isJoin])
+	useEffect(() => {
+		if (
+			!isJoin &&
+			isAuth &&
+			user &&
+			socket
+		) {
+			dispatch(setSocket(socket))
+			socket.emit("join", {
+				id: user.id,
+			})
+			dispatch(setIsJoin(true))
+		}
+	}, [isAuth, user, isJoin])
 
 	useEffect(() => {
 		if (
