@@ -39,6 +39,7 @@ import {
 	IRegister,
 } from "@/services/auth/auth.types"
 import { NotificationsService } from "@/services/notifications/notifications.service"
+import { SearchService } from "@/services/search/search.service"
 
 const baseQuery =
 	"&date=all&duration=all&order=views"
@@ -121,7 +122,8 @@ const Header: FC = () => {
 		if (
 			searchParams &&
 			searchParams.auth &&
-			searchParams.auth === "true" && !user?.id
+			searchParams.auth === "true" &&
+			!user?.id
 		) {
 			setAuthOpen(true)
 		}
@@ -151,7 +153,7 @@ const Header: FC = () => {
 
 	const { refetch, data } = useQuery(
 		["get search list"],
-		() => VideosService.getSearchList(),
+		() => SearchService.getSearchList(),
 		{
 			enabled: false,
 			onSuccess(data) {
@@ -297,12 +299,30 @@ const Header: FC = () => {
 							  )
 							: null}
 						<hr />
-						{
-							user?.following ? user.following.map(user => <Link href={`/persons/${user.name}`} key={user.id}>
-								<Image src={user.avatarPath} className={styles.userImg} alt={user.name} height={24} width={24} />
-								<span>{user.name}</span>
-							</Link>) : null
-						}
+						{user?.following
+							? user.following.map(
+									user => (
+										<Link
+											href={`/persons/${user.name}`}
+											key={user.id}>
+											<Image
+												src={
+													user.avatarPath
+												}
+												className={
+													styles.userImg
+												}
+												alt={user.name}
+												height={24}
+												width={24}
+											/>
+											<span>
+												{user.name}
+											</span>
+										</Link>
+									)
+							  )
+							: null}
 					</>
 				</div>
 				{open && (
@@ -383,7 +403,7 @@ const Header: FC = () => {
 									styles.searchList
 								}>
 								{searchList.map(
-									(item) => (
+									item => (
 										<Link
 											onClick={() => {
 												setSearchOpen(
