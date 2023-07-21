@@ -18,9 +18,10 @@ import {
 	DateEnum,
 	DurationEnum,
 	OrderEnum,
-} from "@/services/videos/videos.types"
+} from "@/services/search/search.types"
 import CarouselItem from "@/components/ui/carousel-videos/carousel-item/CarouselItem"
 import PersonItem from "@/components/ui/person-item/PersonItem"
+import { SearchService } from "@/services/search/search.service"
 
 const Home: FC = () => {
 	const { data: topVideos } = useQuery(
@@ -101,7 +102,7 @@ const Home: FC = () => {
 	} = useQuery(
 		["get search movies"],
 		() =>
-			VideosService.getAllVideos({
+			SearchService.getSearchResult({
 				query: String(query.query),
 				date,
 				duration,
@@ -134,19 +135,19 @@ const Home: FC = () => {
 
 			push(`/?${params.toString()}`)
 		}
-  }, [date])
-  
-  	useEffect(() => {
-			if (duration && query.query) {
-				const params =
-					new URLSearchParams(
-						Object(query)
-					)
-				params.set("duration", duration)
+	}, [date])
 
-				push(`/?${params.toString()}`)
-			}
-		}, [duration])
+	useEffect(() => {
+		if (duration && query.query) {
+			const params =
+				new URLSearchParams(
+					Object(query)
+				)
+			params.set("duration", duration)
+
+			push(`/?${params.toString()}`)
+		}
+	}, [duration])
 
 	useEffect(() => {
 		if (query.query) {
@@ -162,7 +163,13 @@ const Home: FC = () => {
 						По результату поиска:{" "}
 						<span>{query.query}</span>{" "}
 						нашлось{" "}
-						{searchVideos?.videos.length} видео и {searchVideos?.users.length} пользователей
+						{
+							searchVideos?.videos
+								.length
+						}{" "}
+						видео и{" "}
+						{searchVideos?.users.length}{" "}
+						пользователей
 					</span>
 					<div
 						className={styles.selects}>
@@ -279,7 +286,10 @@ const Home: FC = () => {
 						<div>
 							{searchVideos?.users.map(
 								user => (
-								<PersonItem user={user} key={user.id} />
+									<PersonItem
+										user={user}
+										key={user.id}
+									/>
 								)
 							)}
 						</div>
