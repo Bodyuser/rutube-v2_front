@@ -25,8 +25,6 @@ export interface IUser {
 
 	country: string
 
-	online: boolean
-
 	role: UserRoleEnum
 
 	typeAuth: TypeAuthEnum
