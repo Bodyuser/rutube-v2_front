@@ -86,13 +86,6 @@ export const VideosService = {
 			)
 		).data
 	},
-	async getSearchList() {
-		return (
-			await axiosClassic.get<string[]>(
-				getVideosUrl("search-list")
-			)
-		).data
-	},
 	async getTopVideos() {
 		return (
 			await axiosClassic.get<IVideosResponse>(
