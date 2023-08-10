@@ -3,6 +3,7 @@ import {
 	useEffect,
 	useRef,
 } from "react"
+import Cookies from "js-cookie"
 
 export const useSocket = () => {
 	const ref = useRef<any>(null)
@@ -10,7 +11,14 @@ export const useSocket = () => {
 	useEffect(() => {
 		if (process.env.API_URL) {
 			ref.current = io(
-				process.env.API_URL
+				process.env.API_URL,
+				{
+					extraHeaders: {
+						Authorization: `Bearer ${Cookies.get(
+							"accessToken"
+						)}`,
+					},
+				}
 			)
 		}
 	}, [])

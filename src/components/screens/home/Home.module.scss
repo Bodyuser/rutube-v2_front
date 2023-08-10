@@ -1,70 +1,23 @@
-@import "variables";
-
 .home {
-	display: flex;
-	flex-direction: column;
-	gap: 50px;
-
-	> .search {
-		> span {
-			font-size: 18px;
-
-			> span {
-				font-weight: 600;
-				color: $button-bg;
-			}
-		}
-		> .selects {
-			display: flex;
-			gap: 30px;
-			margin-top: 30px;
-			> div {
-				width: 200px;
-				height: 60px;
-				display: flex;
-				flex-direction: column;
-				gap: 10px;
-				> span {
-					font-size: 16px;
-				}
-				> select {
-					height: 100%;
-					outline: none;
-					border: none;
-					background-color: $button-bg;
-					color: #fff;
-					cursor: pointer;
-				}
-			}
-		}
-		> div:last-child {
-			margin-top: 40px;
-			display: flex;
-			flex-direction: column;
-			gap: 40px;
-			> div {
-				display: flex;
-				gap: 20px;
-				flex-wrap: wrap;
-			}
-		}
-	}
-}
-
-.heading {
-	color: #fff;
-	font-size: 28px;
-	line-height: 38px;
-	font-weight: 600;
-	align-items: center;
-	display: flex;
-	> span {
-		color: $button-bg;
-		margin-right: 8px;
-	}
-	> svg {
-		width: 27px;
-		height: 27px;
-		margin-left: 10px;
-	}
+  overflow-x: hidden;
+  > .search {
+    > div {
+      margin-top: 40px;
+      > .videos {
+        display: flex;
+        flex-wrap: wrap;
+        > div {
+          overflow: hidden;
+          margin: 20px;
+          > a {
+            > div {
+              > img {
+                width: 300px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

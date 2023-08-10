@@ -1,7 +1,5 @@
 import {
 	FC,
-	useEffect,
-	useState,
 	useRef,
 	Dispatch,
 	SetStateAction,
@@ -28,7 +26,7 @@ const Upload: FC<{
 	setFileUrl,
 	placeholder = "Загрузить изображение",
 	accept = "image/*",
-	videoRef
+	videoRef,
 }) => {
 	const ref =
 		useRef<HTMLInputElement>(null)
@@ -37,11 +35,11 @@ const Upload: FC<{
 		<div className={styles.upload}>
 			<div>
 				<Button
-					secondary
 					title={placeholder}
 					onClick={() =>
 						ref.current?.click()
 					}
+					icon="BsUpload"
 				/>
 				<input
 					ref={ref}
@@ -70,13 +68,12 @@ const Upload: FC<{
 					}}
 					type="file"
 					accept={accept}
-					required
 				/>
 				{error?.length ? (
 					<span>{error}</span>
 				) : null}
 			</div>
-			{fileUrl.length ? (
+			{fileUrl?.length ? (
 				accept.startsWith("image") ? (
 					<img
 						src={fileUrl}

@@ -5,12 +5,12 @@ import { TypeAuthEnum } from "./enums/type-auth.enum"
 import { UserRoleEnum } from "./enums/user-role.enum"
 
 export interface IUser {
-  id: string
+	id: string
 
-  createdAt: Date
+	createdAt: Date
 
-  updatedAt: Date
-  
+	updatedAt: Date
+
 	email: string
 
 	password: string
@@ -19,7 +19,7 @@ export interface IUser {
 
 	dateOfBirth: string
 
-	gender: 'male' | 'female'
+	gender: "male" | "female"
 
 	age: number
 
@@ -38,6 +38,8 @@ export interface IUser {
 	activateLink: string
 
 	isActivated: boolean
+
+	isVerified: boolean
 
 	resetLink: string
 
@@ -62,5 +64,44 @@ export interface IUser {
 	followers: IUser[]
 }
 
-export interface IUserProfile extends Omit<IUser, "activateLink" | "code" | "password" | "resetLink"> {}
-export interface IGlobalUser extends Omit<IUserProfile, "email" | "isActivated" | "typeAuth"> {}
+export interface IUserProfile
+	extends Omit<
+		IUser,
+		| "activateLink"
+		| "code"
+		| "password"
+		| "resetLink"
+	> {}
+export interface IGlobalUser
+	extends Omit<
+		IUserProfile,
+		"email" | "isActivated" | "typeAuth"
+	> {}
+
+export interface IUpdateProfile {
+	email?: string
+
+	name: string
+
+	country?: string
+
+	dateOfBirth?: string
+
+	password?: string
+
+	currentPassword?: string
+
+	about?: string
+
+	gender?: string
+
+	code?: number
+}
+
+export interface IUpdateAvatarPath {
+	avatarPath: string
+}
+
+export interface IUpdateBannerPath {
+	bannerPath: string
+}

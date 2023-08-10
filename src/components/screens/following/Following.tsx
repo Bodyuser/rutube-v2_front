@@ -1,42 +1,32 @@
 import { FC } from "react"
 
 import styles from "./Following.module.scss"
-import { useQuery, useQueryClient } from "@tanstack/react-query"
-import { UserService } from "@/services/users/users.service"
+import { useGetFollowingQuery } from "@/redux/api/users.api"
 import { useTypedSelector } from "@/hooks/useTypedSelector"
-import PersonItem from "@/components/ui/person-item/PersonItem"
-import { useActions } from "@/hooks/useActions"
+import Person from "@/components/ui/person/Person"
 
 const Following: FC = () => {
-	const user = useTypedSelector(
-		state => state.users.user
-  )
-  
-	const {data: following, refetch} = useQuery(
-		["get following"],
-		() => UserService.getFollowing(),
-		{ enabled: !!user?.id }
+	const isAuth = useTypedSelector(
+		state => state.users.isAuth
 	)
 
+	const { data: following } =
+		useGetFollowingQuery(null, {
+			skip: !isAuth,
+		})
+
 	return (
-		<div className={styles.following}>
-			<h2>Ваш подписки</h2>
+		<div className={styles.top}>
+			<h2>Подписки</h2>
 			<div>
-				{" "}
 				{following?.length ? (
 					following.map(user => (
-						<PersonItem
-							user={user}
-              func={async () => {
-                await refetch()
-              }}
-							key={user.id}
-						/>
+						<Person user={user} />
 					))
 				) : (
-					<div className={styles.empty}>
+					<span>
 						Вы ни на кого не подписались
-					</div>
+					</span>
 				)}
 			</div>
 		</div>

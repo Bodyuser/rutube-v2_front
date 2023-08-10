@@ -1,171 +1,76 @@
-import {
-	FC,
-	useMemo,
-	useState,
-} from "react"
+import { FC, useMemo } from "react"
 
 import styles from "./Video.module.scss"
+import VideoPlayer from "@/components/ui/video-player/VideoPlayer"
 import { useRouter } from "next/router"
 import {
-	useMutation,
-	useQuery,
-} from "@tanstack/react-query"
-import { VideosService } from "@/services/videos/videos.service"
+	useGetSimilarVideosQuery,
+	useGetVideoBySlugQuery,
+	useToggleDisLikeVideoMutation,
+	useToggleLikeVideoMutation,
+} from "@/redux/api/videos.api"
+import HTMLReactParser from "html-react-parser"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import Icon from "@/components/ui/icon/Icon"
-import { UserService } from "@/services/users/users.service"
 import { useTypedSelector } from "@/hooks/useTypedSelector"
-import Button from "@/components/ui/button/Button"
-import { useActions } from "@/hooks/useActions"
-import parse from "html-react-parser"
-import { Player } from "video-react"
-import VideoPlayer from "@/components/ui/video-player/VideoPlayer"
+import { toastr } from "react-redux-toastr"
+import Person from "@/components/ui/person/Person"
 import Link from "next/link"
-import { CommentsService } from "@/services/comments/comments.service"
 import {
-	Controller,
+	useCreateCommentMutation,
+	useGetCommentsByVideoQuery,
+} from "@/redux/api/comments.api"
+import Comment from "./comment/Comment"
+import {
 	SubmitHandler,
 	useForm,
 } from "react-hook-form"
-import { ICreateComment } from "@/services/comments/comments.types"
-import { stripHtml } from "string-strip-html"
-import dynamic from "next/dynamic"
+import { ICreateComment } from "@/shared/types/comment/comment.types"
+import Field from "@/components/ui/field/Field"
+import Button from "@/components/ui/button/Button"
+import VideoComp from "@/components/ui/video/Video"
 
 dayjs.extend(relativeTime)
 
-const TextEditor = dynamic(
-	() =>
-		import(
-			"@/components/ui/text-editor/TextEditor"
-		),
-	{ ssr: false }
-)
-
 const Video: FC = () => {
-	const { query, replace } = useRouter()
-
-	const { GetProfile } = useActions()
+	const { query } = useRouter()
 
 	const slug = useMemo(
-		() => String(query.slug),
-		[query]
+		() => query.slug,
+		[query.slug]
 	)
 
-	const {
-		data: video,
-		refetch: refetchVideo,
-	} = useQuery(
-		["get video", slug],
-		() =>
-			VideosService.getVideoBySlug(
-				slug
-			),
-		{
-			enabled: !!slug.length,
-		}
-	)
+	const { data: video } =
+		useGetVideoBySlugQuery(slug!, {
+			skip: !slug,
+		})
 
-	const { data: user, refetch } =
-		useQuery(
-			[
-				"get person",
-				video?.author.name,
-			],
-			() =>
-				UserService.getUser(
-					String(video?.author.name)
-				),
+	const { data: comments } =
+		useGetCommentsByVideoQuery(
+			video?.id!,
 			{
-				enabled: !!video?.author.name,
+				skip: !video?.id,
 			}
 		)
 
-	const { user: profile, isLoading } =
-		useTypedSelector(
-			state => state.users
-		)
+	const [likeVideo] =
+		useToggleLikeVideoMutation()
+	const [disLikeVideo] =
+		useToggleDisLikeVideoMutation()
 
-	const { mutateAsync } = useMutation(
-		["follow unfollow on user"],
-		(id: string) =>
-			UserService.followingUnFollowing(
-				id
-			),
-		{
-			async onSuccess() {
-				await GetProfile()
-				await refetch()
-			},
-		}
+	const isAuth = useTypedSelector(
+		state => state.users.isAuth
 	)
 
-	const { mutateAsync: likeVideo } =
-		useMutation(
-			["like video", video?.id],
-			() =>
-				VideosService.toggleLikeVideo(
-					String(video?.id)
-				),
-			{
-				async onSuccess() {
-					await GetProfile()
-					await refetchVideo()
-				},
-			}
-		)
-
-	const { mutateAsync: disLikeVideo } =
-		useMutation(
-			["dis like video", video?.id],
-			() =>
-				VideosService.toggleDisLikeVideo(
-					String(video?.id)
-				),
-			{
-				async onSuccess() {
-					await GetProfile()
-					await refetchVideo()
-				},
-			}
-		)
+	const [createComment] =
+		useCreateCommentMutation()
 
 	const {
-		data: comments,
-		refetch: refetchComments,
-	} = useQuery(
-		["get comments", video?.slug],
-		() =>
-			CommentsService.getCommentsByVideo(
-				String(video?.id)
-			),
-		{
-			enabled: !!video?.id,
-		}
-	)
-
-	const { mutateAsync: createComment } =
-		useMutation(
-			["create comment"],
-			(data: ICreateComment) =>
-				CommentsService.createComment(
-					data,
-					String(video?.id)
-				)
-		)
-
-	const {
+		register,
+		formState: { errors },
 		handleSubmit,
-		control,
 		reset,
-	} = useForm<ICreateComment>({
-		mode: "onChange",
-	})
-
-	const {
-		handleSubmit: handleSubmitReply,
-		control: controlReply,
-		reset: resetReply,
 	} = useForm<ICreateComment>({
 		mode: "onChange",
 	})
@@ -174,507 +79,182 @@ const Video: FC = () => {
 		ICreateComment
 	> = async data => {
 		await createComment({
-			type: "comment",
-			text: data.text,
+			...data,
+			videoId: video?.id!,
+			type: "comment"
 		})
+
 		reset()
-		await refetchComments()
 	}
 
-	const [commentId, setCommentId] =
-		useState<any>(null)
+	const { data: similarVideos } = useGetSimilarVideosQuery(video?.id!, {
+		skip: !video?.id
+	})
 
-	const onSubmitReply: SubmitHandler<
-		ICreateComment
-	> = async data => {
-		await createComment({
-			type: "reply-comment",
-			text: data.text,
-			comment: commentId,
-		})
-		resetReply()
-		await refetchComments()
-	}
-
-	const [openReply, setOpenReply] =
-		useState(false)
-
-	const {
-		mutateAsync: updateViewVideo,
-	} = useMutation(
-		["update count view"],
-		() =>
-			VideosService.viewVideo(
-				String(video?.id)
-			)
-	)
-
-	return (
-		<div
-			className={styles.videoWrapper}>
-			<div
-				className={
-					styles.videoContainer
-				}>
-				<div className={styles.video}>
-					<div>
-						<VideoPlayer
-							src={
-								video?.videoPath || ""
-							}
-              func={updateViewVideo}
-						/>
-					</div>
-					<div>
-						<span
-							className={styles.title}>
-							{video?.title}
-						</span>
-						<div
-							className={
-								styles.otherOptions
-							}>
+	if (video) {
+		return (
+			<div className={styles.video}>
+				<div>
+					<VideoPlayer
+						src={video?.videoPath!}
+					/>
+					<div className={styles.info}>
+						<span>{video.title}</span>
+						<div>
+							<span>Описание: </span>
 							<span>
-								{
-									video?.minAgeRestrictions
-								}
-								+
+								{HTMLReactParser(
+									video.description
+								)}
+							</span>
+						</div>
+						<div>
+							<span>Категория: </span>
+							<span>
+								<Link
+									href={`/categories/${video.category.slug}`}>
+									{video.category.title}
+								</Link>
+							</span>
+						</div>
+						<div>
+							<span>
+								{video.countViews}{" "}
+								просмотров
 							</span>
 							<span>
 								{dayjs(
 									new Date(
-										video?.createdAt!
+										video.createdAt
 									)
 								).fromNow()}
 							</span>
 							<span>
-								{video?.countViews}{" "}
-								просмотров
+								{
+									video.minAgeRestrictions
+								}
+								+
+							</span>
+						</div>
+					</div>
+					<Person user={video.author} />
+
+					<div
+						className={styles.actions}>
+						<div
+							onClick={async () => {
+								if (isAuth) {
+									await likeVideo(
+										video.id
+									)
+								} else {
+									toastr.error(
+										"Нет доступа",
+										"Сначала авторизуйтесь"
+									)
+								}
+							}}>
+							<Icon
+								name={
+									Object(
+										video
+									).hasOwnProperty(
+										"isLike"
+									)
+										? video.isLike
+											? "BsHandThumbsUpFill"
+											: "BsHandThumbsUp"
+										: "BsHandThumbsUp"
+								}
+							/>
+							<span>
+								{video.countLike}
 							</span>
 						</div>
 						<div
-							className={
-								styles.actions
-							}>
-							<div>
-								<div>
-									<Icon
-										onClick={async () => {
-											await likeVideo()
-										}}
-										name={
-											profile?.likeVideos.some(
-												video =>
-													video.slug ===
-													slug
-											)
-												? "BsHandThumbsUpFill"
-												: "BsHandThumbsUp"
-										}
-									/>
-									<span>
-										{" "}
-										{
-											video?.likeUsers
-												.length
-										}
-									</span>
-								</div>
-								<div>
-									<Icon
-										onClick={async () => {
-											await disLikeVideo()
-										}}
-										name={
-											profile?.disLikeVideos.some(
-												video =>
-													video.slug ===
-													slug
-											)
-												? "BsHandThumbsDownFill"
-												: "BsHandThumbsDown"
-										}
-									/>
-									<span>
-										{" "}
-										{
-											video
-												?.disLikeUsers
-												.length
-										}
-									</span>
-								</div>
-							</div>
+							onClick={async () => {
+								if (isAuth) {
+									await disLikeVideo(
+										video.id
+									)
+								} else {
+									toastr.error(
+										"Нет доступа",
+										"Сначала авторизуйтесь"
+									)
+								}
+							}}>
+							<Icon
+								name={
+									Object(
+										video
+									).hasOwnProperty(
+										"isDisLike"
+									)
+										? video.isDisLike
+											? "BsHandThumbsDownFill"
+											: "BsHandThumbsDown"
+										: "BsHandThumbsDown"
+								}
+							/>
+							<span>
+								{video.countDisLike}
+							</span>
 						</div>
-						<hr />
-						<div
-							className={styles.info}>
-							<Link
-								href={`/persons/${user?.name}`}>
-								<div
-									className={
-										styles.avatar
-									}>
-									<img
-										src={
-											user?.avatarPath
-										}
-										alt={user?.name}
-									/>
-								</div>
-								<div
-									className={
-										styles.name
-									}>
-									<span>
-										{user?.name}
-									</span>
-									<span>
-										{
-											user?.followers
-												.length
-										}{" "}
-										подписчиков
-									</span>
-								</div>
-							</Link>
-							<div
-								className={styles.btn}>
-								{profile?.id !==
-									user?.id && (
-									<Button
-										secondary={
-											profile?.following?.some(
-												u =>
-													u.id ===
-													user?.id
-											)
-												? true
-												: false
-										}
-										title={
-											profile?.following.some(
-												u =>
-													u.id ===
-													user?.id
-											)
-												? "Отписаться"
-												: "Подписаться"
-										}
-										onClick={async () => {
-											if (!isLoading) {
-												if (
-													profile?.id
-												) {
-													await mutateAsync(
-														String(
-															user?.id
-														)
-													)
-												} else {
-													const params =
-														new URLSearchParams(
-															Object(
-																query
-															)
-														)
-													params.set(
-														"auth",
-														"true"
-													)
-													replace(
-														`/?${params.toString()}`
-													)
-												}
-											}
-										}}
-									/>
+					</div>
+
+					<div
+						className={styles.comment}>
+						<div>
+							<form
+								onSubmit={handleSubmit(
+									onSubmit
+								)}>
+								<Field
+									{...register("text", {
+										required:
+											"Это поле обязательно",
+									})}
+									placeholder="Текст"
+									icon="BsTextParagraph"
+									error={
+										errors.comment
+											?.message
+									}
+									autoComplete="off"
+								/>
+								<Button
+									title="Отправить"
+									icon="BsSend"
+									type="submit"
+								/>
+							</form>
+						</div>
+						<div>
+							{!!comments &&
+								!!comments.length &&
+								comments.map(
+									comment => (
+										<Comment
+											comment={comment}
+											videoId={video.id}
+										/>
+									)
 								)}
-							</div>
-						</div>
-						<div
-							className={styles.desc}>
-							{parse(
-								String(
-									video?.description
-								)
-							)}
-						</div>
-						<div
-							className={
-								styles.category
-							}>
-							Категория:
-							<Link
-								href={`/categories/${video?.category.slug}`}>
-								{video?.category.title}
-							</Link>
 						</div>
 					</div>
 				</div>
-				<div
-					className={styles.comments}>
-					<h4>
-						{comments?.length}{" "}
-						Комментариев
-					</h4>
-					<div
-						className={styles.create}>
-						<form
-							onSubmit={handleSubmit(
-								onSubmit
-							)}>
-							<div>
-								<span>
-									Добавить комментарий
-								</span>
-								<Controller
-									control={control}
-									name="text"
-									render={({
-										field: {
-											onChange,
-											value,
-										},
-										fieldState: {
-											error,
-										},
-									}) => (
-										<TextEditor
-											placeholder=""
-											full={false}
-											onChange={
-												onChange
-											}
-											value={value}
-											error={error}
-										/>
-									)}
-									rules={{
-										validate: {
-											required: v =>
-												(v &&
-													stripHtml(v)
-														.result
-														.length >
-														0) ||
-												"Text is required!",
-										},
-									}}
-								/>
-							</div>
-							<Button
-								title="Отправить"
-								type="submit"
-							/>
-						</form>
-					</div>
-					<div
-						className={
-							styles.commentsContainer
-						}>
-						{comments?.length
-							? comments.map(
-									comment => (
-										<div
-											key={comment.id}>
-											<div>
-												<Link
-													href={`/persons/${comment.author.name}`}>
-													<img
-														src={
-															comment
-																.author
-																.avatarPath
-														}
-														alt={
-															comment
-																.author
-																.name
-														}
-													/>
-												</Link>
-												<div>
-													<Link
-														href={`/persons/${comment.author.name}`}>
-														<span>
-															{
-																comment
-																	.author
-																	.name
-															}
-														</span>
-														<span>
-															{dayjs(
-																new Date(
-																	comment?.createdAt
-																)
-															).fromNow()}
-														</span>
-													</Link>
-													<div>
-														{parse(
-															comment.text
-														)}
-													</div>
-													<div>
-														<Icon name="BsHandThumbsUp" />
-														<Icon name="BsHandThumbsDown" />
-														<span
-															onClick={() => {
-																setOpenReply(
-																	!openReply
-																)
-																setCommentId(
-																	comment.id
-																)
-															}}>
-															Ответить
-														</span>
-													</div>
-												</div>
-											</div>
-											{openReply &&
-												commentId ===
-													comment.id && (
-													<div
-														className={
-															styles.replyForm
-														}>
-														<form
-															onSubmit={handleSubmitReply(
-																onSubmitReply
-															)}>
-															<div>
-																<span>
-																	Добавить
-																	reply
-																	комментарий
-																</span>
-																<Controller
-																	control={
-																		controlReply
-																	}
-																	name="text"
-																	render={({
-																		field:
-																			{
-																				onChange,
-																				value,
-																			},
-																		fieldState:
-																			{
-																				error,
-																			},
-																	}) => (
-																		<TextEditor
-																			placeholder=""
-																			full={
-																				false
-																			}
-																			onChange={
-																				onChange
-																			}
-																			value={
-																				value
-																			}
-																			error={
-																				error
-																			}
-																		/>
-																	)}
-																	rules={{
-																		validate:
-																			{
-																				required:
-																					v =>
-																						(v &&
-																							stripHtml(
-																								v
-																							)
-																								.result
-																								.length >
-																								0) ||
-																						"Text is required!",
-																			},
-																	}}
-																/>
-															</div>
-															<Button
-																title="Отправить"
-																type="submit"
-															/>
-														</form>
-													</div>
-												)}
-											<div>
-												{comment
-													.replyComments
-													.length
-													? comment.replyComments.map(
-															rep => (
-																<div>
-																	<Link
-																		href={`/persons/${rep.author.name}`}>
-																		<img
-																			src={
-																				rep
-																					.author
-																					.avatarPath
-																			}
-																			alt={
-																				rep
-																					.author
-																					.name
-																			}
-																		/>
-																	</Link>
-																	<div>
-																		<Link
-																			href={`/persons/${rep.author.name}`}>
-																			<span>
-																				{
-																					rep
-																						.author
-																						.name
-																				}
-																			</span>
-																			<span>
-																				{dayjs(
-																					new Date(
-																						rep?.createdAt
-																					)
-																				).fromNow()}
-																			</span>
-																		</Link>
-																		<div>
-																			{parse(
-																				rep.text
-																			)}
-																		</div>
-																		<div>
-																			<Icon name="BsHandThumbsUp" />
-																			<Icon name="BsHandThumbsDown" />
-																		</div>
-																	</div>{" "}
-																</div>
-															)
-													  )
-													: null}
-											</div>
-										</div>
-									)
-							  )
-							: null}
-					</div>
+				<div>
+					{!!similarVideos?.length &&
+						similarVideos.map(video => (
+							<VideoComp video={video} />
+						))}
 				</div>
 			</div>
-			<div
-				className={
-					styles.otherVideos
-				}></div>
-		</div>
-	)
+		)
+	}
+
+	return null
 }
 
 export default Video

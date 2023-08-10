@@ -3,10 +3,10 @@
 .wrapper {
 	display: flex;
 	flex-direction: column;
-	color: #fff;
+	color: $black;
 	.editorWrapper {
 		width: 100%;
-		border: 1px solid #3d4a58;
+		border: 1px solid $gray-5;
 		border-radius: 6px;
 	}
 	.toolbar {
@@ -14,15 +14,15 @@
 		display: flex;
 		justify-content: space-between;
 		box-shadow: none;
-		border-bottom: 1px solid #3d4a58 !important;
+		border-bottom: 1px solid $gray-5 !important;
 		div {
-			background-color: $button-bg;
+			background-color: $white-1;
 			outline: none;
 			box-shadow: none;
 			z-index: 2;
 			div {
 				z-index: 5;
-				background-color: $button-bg;
+				background-color: $white-1;
 			}
 		}
 	}

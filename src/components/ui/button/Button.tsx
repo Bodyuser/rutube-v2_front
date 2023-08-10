@@ -1,23 +1,28 @@
-import { FC } from 'react'
+import { FC, memo } from "react"
 
-import styles from './Button.module.scss'
-import { IButton } from './button.types'
-import cn from "classnames"
+import styles from "./Button.module.scss"
+import { IButton } from "./button.types"
+import Icon from "../icon/Icon"
 
-const Button: FC<IButton> = ({title, onClick, disabled = false, secondary = false, type = "button"}) => {
-  return (
+const Button: FC<IButton> = ({
+	title,
+	onClick,
+	disabled = false,
+	icon,
+	type = "button",
+}) => {
+	return (
 		<button
 			disabled={disabled}
 			onClick={
 				onClick ? onClick : () => {}
 			}
-      className={cn(styles.button, {
-        [styles.secondary]: secondary
-      })}
-    type={type}>
-			{title}
+			className={styles.button}
+			type={type}>
+			<Icon name={icon} />
+			<span>{title}</span>
 		</button>
 	)
 }
 
-export default Button
+export default memo(Button)

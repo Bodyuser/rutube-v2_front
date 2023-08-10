@@ -1,6 +1,6 @@
 .custom-select__control {
 	background-color: transparent !important;
-	border: 1px solid #3d4a58 !important;
+	border: 1px solid $gray-5 !important;
 	border-radius: 6px !important;
 	box-shadow: none !important;
 	width: 100& !important;
@@ -17,12 +17,12 @@
 }
 
 .custom-select__control--menu-is-open {
-	border-color: #3d4a58 !important;
+	border-color: $gray-5 !important;
 	width: 100% !important;
 }
 
 .custom-select__placeholder {
-	color: #fff !important;
+	color: $black !important;
 	font-size: 12px !important;
 	margin: 0 !important;
 }
@@ -33,13 +33,13 @@
 }
 
 .custom-select__input-container {
-	color: #fff !important;
+	color: $primary-1 !important;
 	margin: 0 !important;
 	padding: 0 !important;
 }
 
 .custom-select__single-value {
-	color: #fff !important;
+	color: #000 !important;
 	font-size: 12px !important;
 }
 
@@ -61,7 +61,7 @@
 }
 
 .custom-select__multi-value {
-	background-color: $button-bg !important;
+	background-color: $primary-1 !important;
 }
 .custom-select__multi-value__label {
 	font-size: 12px !important;
@@ -77,7 +77,7 @@
 }
 
 .custom-select__menu {
-	background-color: $gray !important;
+	background-color: $gray-1 !important;
 	width: 100% !important;
 }
 .custom-select__menu::-webkit-scrollbar {
@@ -92,15 +92,15 @@
 }
 
 .custom-select__option--is-focused {
-	background: $button-bg !important;
+	background: $primary-1 !important;
 	width: 100% !important;
 }
 .custom-select__option--is-selected {
-	background: $button-bg !important;
+	background: $primary-1 !important;
 }
 
 .custom-select {
-	color: $gray !important;
+	color: $gray-1 !important;
 }
 
 *::-webkit-scrollbar {
@@ -119,12 +119,12 @@
 
 .custom-select-container
 	.form-control__control {
-	border-color: $gray !important;
+	border-color: $gray-1 !important;
 	box-shadow: none !important;
 }
 
 .custom-select-container:hover,
 .custom-select-container--menu-is-open {
-	border-color: $button-bg !important;
+	border-color: $primary-1 !important;
 	width: 100% !important;
 }

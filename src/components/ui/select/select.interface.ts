@@ -12,4 +12,5 @@ export interface ISelectForm {
 	options: Options<IOption>
 	className?: string
 	error?: string
+	placeholder: string
 }

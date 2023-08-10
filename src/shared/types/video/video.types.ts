@@ -25,6 +25,8 @@ export interface IVideo {
 
 	countViews: number
 
+	isPrivate: boolean
+
 	tags: string[]
 
 	category: ICategory
@@ -36,4 +38,48 @@ export interface IVideo {
 	likeUsers: IUser[]
 
 	disLikeUsers: IUser[]
-} 
+}
+
+export interface ICreateVideo {
+	title: string
+
+	slug: string
+
+	description: string
+
+	videoPath: string
+
+	bannerPath: string
+
+	category: string
+
+	minAgeRestrictions: number
+
+	duration: number
+
+	tags?: string[]
+
+	isPrivate: boolean
+}
+
+export interface IUpdateVideo {
+	title: string
+
+	slug: string
+
+	description: string
+
+	videoPath: string
+
+	bannerPath: string
+
+	category: string
+
+	minAgeRestrictions: number
+
+	duration: number
+
+	tags?: string[]
+
+	isPrivate: boolean
+}

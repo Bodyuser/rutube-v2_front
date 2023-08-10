@@ -1,103 +1,126 @@
-import {IFacebook, ILogin, IRegister, IResetPassword} from "./auth.types"
+import {
+	IFacebook,
+	ILogin,
+	IRegister,
+	IResetPassword,
+} from "./auth.types"
 import { IUserProfile } from "@/shared/types/user/user.types"
-import { saveToken } from "@/helpers/cookie.helper"
+import {
+	removeToken,
+	saveToken,
+} from "@/helpers/cookie.helper"
 import { IMessageResponse } from "@/shared/types/message-response.types"
 import { axiosClassic } from "@/api/axios-classic"
 
-const getAuthUrl = (url: string) => `/auth/${url}`
+const getAuthUrl = (url: string) =>
+	`/auth/${url}`
 
 interface IAuthResponse {
-  user: IUserProfile
-  token: string
+	user: IUserProfile
+	token: string
 }
 
 export const AuthService = {
-  async login(data: ILogin) {
-    const response = (await axiosClassic.post<IAuthResponse>(getAuthUrl("login"), data)).data
+	async login(data: ILogin) {
+		const response = (
+			await axiosClassic.post<IAuthResponse>(
+				getAuthUrl("login"),
+				data
+			)
+		).data
 
-    if (response.token) {
-      saveToken(response.token)
-    }
+		if (response.token) {
+			saveToken(response.token)
+		}
 
-    return response.user
-  },
-  async register(data: IRegister) {
-     const response = (
-				await axiosClassic.post<IAuthResponse>(
-					getAuthUrl("register"),
-					data
-				)
-			).data
+		return response.user
+	},
+	async register(data: IRegister) {
+		const response = (
+			await axiosClassic.post<IAuthResponse>(
+				getAuthUrl("register"),
+				data
+			)
+		).data
 
-			if (response.token) {
-				saveToken(response.token)
-			}
+		if (response.token) {
+			saveToken(response.token)
+		}
 
-			return response.user
-  },
-  async logout() {
-     const response = (
-				await axiosClassic.get<IMessageResponse>(
-					getAuthUrl("logout"),
-				)
-    ).data
-    
-			return response.message
-  },
-  async getNewToken() {
-     const response = (
-				await axiosClassic.get<IAuthResponse>(
-					getAuthUrl("new-token"),
-				)
-			).data
-
-			if (response.token) {
-				saveToken(response.token)
-			}
-
-			return response.user
-  },
-  async resetPassword(data: IResetPassword, resetLink: string) {
-     const response = (
-				await axiosClassic.post<IMessageResponse>(
-					getAuthUrl(`reset-password/${resetLink}`),
-					data
-				)
-			).data
-
-			return response.message
-  },
-  async checkResetLink(resetLink: string) {
-    const response = (
+		return response.user
+	},
+	async logout() {
+		const response = (
 			await axiosClassic.get<IMessageResponse>(
+				getAuthUrl("logout")
+			)
+		).data
+
+		removeToken()
+
+		return response.message
+	},
+	async getNewToken() {
+		const response = (
+			await axiosClassic.get<IAuthResponse>(
+				getAuthUrl("new-token")
+			)
+		).data
+
+		if (response.token) {
+			saveToken(response.token)
+		}
+
+		return response.user
+	},
+	async resetPassword(
+		data: IResetPassword,
+		resetLink: string
+	) {
+		const response = (
+			await axiosClassic.post<IMessageResponse>(
 				getAuthUrl(
 					`reset-password/${resetLink}`
 				),
+				data
 			)
 		).data
 
 		return response.message
-  },
-  async authByGoogle(token: string) {
-    const response = (
-			await axiosClassic.post<IAuthResponse>(
+	},
+	async checkResetLink(
+		resetLink: string
+	) {
+		const response = (
+			await axiosClassic.get<IMessageResponse>(
 				getAuthUrl(
-					`google`
-        ),
-        {
-          token
-        }
+					`reset-password/${resetLink}`
+				)
 			)
 		).data
 
-    if (response.token) {
-      saveToken(response.token)
-    }
+		return response.message
+	},
+	async authByGoogle(token: string) {
+		const response = (
+			await axiosClassic.post<IAuthResponse>(
+				getAuthUrl(`google`),
+				{
+					token,
+				}
+			)
+		).data
+
+		if (response.token) {
+			saveToken(response.token)
+		}
 
 		return response.user
-  },
-  async authByFacebook(data: IFacebook) {
-    const response = (
+	},
+	async authByFacebook(
+		data: IFacebook
+	) {
+		const response = (
 			await axiosClassic.post<IAuthResponse>(
 				getAuthUrl(`facebook`),
 				data
@@ -109,5 +132,5 @@ export const AuthService = {
 		}
 
 		return response.user
-  },
+	},
 }

@@ -1,0 +1,31 @@
+.person {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: 0 40px 0 0;
+  margin: 30px 0;
+  > .info {
+    display: flex;
+      align-items: center;
+      gap: 10px;
+    > div:first-child {
+      > img {
+        border-radius: 50%;
+      }
+    }
+    > div:last-child {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      > span:last-child {
+        font-size: 11px;
+      }
+    }
+  }
+
+  > div:last-child {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+}

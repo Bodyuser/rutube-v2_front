@@ -1,0 +1,21 @@
+.update {
+
+  padding: 40px 0;
+
+  > h2 {
+    text-align: center;
+    margin: 20px 0;
+  }
+  > form {
+    display: flex;
+    flex-direction: column;
+    max-width: 700px;
+    margin: 0 auto;
+    gap: 40px;
+
+    > button {
+      width: max-content;
+      margin: 0 auto;
+    }
+  }
+}

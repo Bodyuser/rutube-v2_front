@@ -2,15 +2,16 @@
 
 .tagInput {
 	width: 100%;
+	margin: 20px 0;
 	.input {
 		background-color: transparent;
-		color: #fff;
+		color: $black;
 	}
 	.tag {
-		background-color: $button-bg;
+		background-color: $primary-2;
 		font-size: 12px !important;
 		> button {
-			color: #3d4a58 !important;
+			color: #fff !important;
 			&:hover {
 			}
 		}

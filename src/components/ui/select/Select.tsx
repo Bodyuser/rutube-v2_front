@@ -14,11 +14,20 @@ const SelectForm: FC<ISelectForm> = ({
 	isMulti,
 	className,
 	error,
+	placeholder,
 }) => {
-	const onChange = (newValue: OnChangeValue<IOption, boolean>) => {
+	const onChange = (
+		newValue: OnChangeValue<
+			IOption,
+			boolean
+		>
+	) => {
 		value.onChange(
 			isMulti
-				? (newValue as IOption[]).map((item: IOption) => item.value)
+				? (newValue as IOption[]).map(
+						(item: IOption) =>
+							item.value
+				  )
 				: (newValue as IOption).value
 		)
 	}
@@ -27,11 +36,18 @@ const SelectForm: FC<ISelectForm> = ({
 		if (value.value) {
 			return isMulti
 				? options.filter(
-						(option: any) => value.value.indexOf(option.value) >= 0
+						(option: any) =>
+							value.value.indexOf(
+								option.value
+							) >= 0
 				  )
-				: options.find((option: any) => option.value === value.value)
+				: options.find(
+						(option: any) =>
+							option.value ===
+							value.value
+				  )
 		} else {
-			return isMulti ? [] : ('' as any)
+			return isMulti ? [] : ("" as any)
 		}
 	}
 
@@ -43,9 +59,11 @@ const SelectForm: FC<ISelectForm> = ({
 				options={options}
 				classNamePrefix="custom-select"
 				isMulti={isMulti}
-				placeholder={""}
+				placeholder={placeholder}
 				components={animatedComponents}
-				className={`${className ? className : ''}`}
+				className={`${
+					className ? className : ""
+				}`}
 			/>
 			{error && <span>{error}</span>}
 		</div>

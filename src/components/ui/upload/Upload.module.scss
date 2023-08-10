@@ -1,6 +1,7 @@
 @import "variables";
 
 .upload {
+  margin: 20px 0;
   > div {
     display: flex;
     flex-direction: column;
@@ -8,6 +9,16 @@
       display: none;
     }
     > button {
+      background-color: transparent;
+      border: 1px solid $gray-5;
+      > span {
+        text-transform: none;
+        color: $black;
+        font-weight: 400;
+      }
+      > svg {
+        color: $black;
+      }
     }
   }
   > img, >video {

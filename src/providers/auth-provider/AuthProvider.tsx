@@ -30,16 +30,17 @@ const AuthProvider: FC<
 	},
 	children,
 }) => {
-	const { GetNewToken, } = useActions()
+	const { GetNewToken } = useActions()
 	const { pathname } = useRouter()
 
-	const {isAuth, isJoin, user} = useTypedSelector(
-		(state) => state.users
-	)
+	const { isAuth, isJoin, user } =
+		useTypedSelector(
+			state => state.users
+		)
 
-const { socket } = useSocket()
+	const { socket } = useSocket()
 
-const dispatch = useAppDispatch()
+	const dispatch = useAppDispatch()
 
 	useEffect(() => {
 		if (
@@ -48,6 +49,8 @@ const dispatch = useAppDispatch()
 			user &&
 			socket
 		) {
+			console.log("socket")
+
 			dispatch(setSocket(socket))
 			socket.emit("join", {
 				id: user.id,
@@ -57,10 +60,7 @@ const dispatch = useAppDispatch()
 	}, [isAuth, user, isJoin])
 
 	useEffect(() => {
-		if (
-			isAuth
-		)
-			GetNewToken()
+		if (isAuth) GetNewToken()
 	}, [pathname]) // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
@@ -68,8 +68,7 @@ const dispatch = useAppDispatch()
 			Component={{
 				isOnlyAdmin,
 				isOnlyUser,
-			}}
-		>
+			}}>
 			{children}
 		</DynamicCheckRole>
 	)

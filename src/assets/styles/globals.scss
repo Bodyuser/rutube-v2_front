@@ -2,62 +2,151 @@
 @import "react-redux-toastr/src/styles/index";
 @import "./text-editor.scss";
 @import "./react-select.scss";
-@import "./video-player.scss";
+// @import "./video-player.scss";
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 
-body, html {
-  height: 100%;
-  background: $bg-color;
-  color: #fff;
-  font-family: "Montserrat", sans-serif;
+body,
+html {
+	height: 100%;
+	font-family: "Inter", sans-serif;
 }
 
-button, input {
-  border: none;
-  outline: none;
-  box-shadow: none;
+button,
+input {
+	border: none;
+	outline: none;
+	box-shadow: none;
 }
 
 button {
-  cursor: pointer;
-  appearance: none;
+	cursor: pointer;
+	appearance: none;
 }
 
 a {
-  text-decoration: none;
-  color: #fff;
+	text-decoration: none;
+	color: $gray-1;
 }
 
-.rti--container {
-  background-color: transparent !important;
-  border: 1px solid #3d4a58 !important;
-  border-radius: 6px !important;
-  line-height: 18px !important;
-  gap: 10px !important;
-	padding: 10px 11px !important;
+h1 {
+	font-size: 34px;
+	line-height: 51px;
+	font-weight: 400;
+	text-shadow: 0px 4px 4px
+		rgba(0, 0, 0, 0.25);
+	color: #1b2124;
 
-  &:focus-within {
-    box-shadow: none !important;
+	&.medium {
+		font-weight: 500;
+	}
+}
+
+h2 {
+	font-size: 28px;
+	font-weight: 400;
+	line-height: 42px;
+	color: #1b2124;
+
+	&.medium {
+		font-weight: 500;
+	}
+}
+
+h3 {
+	font-size: 22px;
+	font-weight: 400;
+	line-height: 33px;
+	color: #1b2124;
+
+	&.medium {
+		font-weight: 600;
+	}
+}
+
+h4 {
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 27px;
+	color: #1b2124;
+
+	&.medium {
+		font-weight: 500;
+	}
+}
+
+.p-16 {
+	color: #1b2124;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 24px;
+
+	&-medium {
+		font-weight: 500;
+	}
+}
+
+.p-14 {
+	color: #1b2124;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 21px;
+
+	&-medium {
+		font-weight: 500;
+	}
+
+	&-bold {
+		font-weight: 700;
+		text-transform: uppercase;
+	}
+}
+
+.p-11 {
+	color: #1b2124;
+	font-size: 11px;
+	font-weight: 400;
+	line-height: 16.5px;
+
+	&-medium {
+		font-weight: 500;
+	}
+}
+
+.l-14 {
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 21px;
+	color: #1b2124;
+
+	&-bold {
+		font-weight: 700;
+	}
+}
+
+
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.25);
+  left: 0;
+  top: 0;
+  z-index: 1;
+  animation: animOverlay 0.2s backwards;
+}
+
+@keyframes animOverlay {
+  0% {
+    opacity: 0;
+    pointer-events: none;
   }
-}
-
-.video-react-controls-enabled {
-  height: 500px !important;
-  padding: 0 !important;
-  width: 800px !important;
-  > video {
+  100% {
+    opacity: 1;
+    pointer-events: all;
   }
-}
-
-
-pre {
-  background: transparent !important;
-  border: 1px solid $button-bg;
-  max-height: 400px;
-  overflow: scroll;
 }

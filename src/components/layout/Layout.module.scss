@@ -1,4 +1,8 @@
-.main {
-  margin-top: 72px;
-  padding: 20px 30px 40px;
+.layout {
+  display: flex;
+
+  .main {
+    padding-left: 236px;
+    width: 100%;
+  }
 }

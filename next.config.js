@@ -21,14 +21,13 @@ const nextConfig = {
 		return [
 			{
 				source: "/uploads/:path*",
-				destination: `${process.env.API_URL}/uploads/:path*`,
+				destination: `${process.env.API_URL}/api/files/uploads/:path*`,
 			},
 		]
 	},
 	images: {
 		domains: [
 			"lh3.googleusercontent.com",
-			"pic.rutubelist.ru",
 		],
 	},
 }

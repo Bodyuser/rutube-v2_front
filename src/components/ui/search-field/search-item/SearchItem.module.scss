@@ -1,0 +1,15 @@
+.item {
+  padding: 15px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+
+  > span {
+    font-size: 14px;
+  }
+  > svg {
+    font-size: 18px;
+  }
+}

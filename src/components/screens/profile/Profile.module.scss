@@ -1,0 +1,80 @@
+@import "variables";
+
+.profile {
+	> h2 {
+		text-align: center;
+		margin: 20px 0 40px;
+	}
+	> div {
+		> .banner {
+			width: 100%;
+			max-width: 800px;
+			height: 400px;
+			background-repeat: no-repeat;
+			background-size: 100% 100%;
+			margin: 0 auto;
+			display: flex;
+			justify-content: center;
+			align-items: flex-end;
+			position: relative;
+			padding: 10px;
+
+			> .update {
+				position: absolute;
+				top: 10px;
+				right: 10px;
+				background-color: #fff;
+				position: absolute;
+				height: 30px;
+				width: 30px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				cursor: pointer;
+				border-radius: 50%;
+				> svg {
+					font-size: 20px;
+				}
+			}
+
+			> div {
+				position: relative;
+				> img {
+					border-radius: 50%;
+				}
+
+				> div {
+					background-color: #fff;
+					position: absolute;
+					bottom: 5px;
+					right: 10px;
+					height: 30px;
+					width: 30px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					cursor: pointer;
+					border-radius: 50%;
+					> svg {
+						font-size: 20px;
+					}
+				}
+			}
+		}
+	}
+
+	> .modal {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		z-index: 7;
+		background-color: #fff;
+	}
+
+	> a {
+		display: block;
+		text-align: center;
+		margin: 30px 0;
+	}
+}

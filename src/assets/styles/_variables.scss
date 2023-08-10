@@ -1,5 +1,37 @@
-$menu-bg: #1C232B;
-$bg-color: #14191F;
-$button-bg: #00A1E7;
-$search-border-color: #29333D;
-$gray: #889BAF;
+$primary-1: #7B2CBF;
+$primary-2: #9556CC;
+$primary-3: #B68BDC;
+$primary-4: #E5D5F2;
+
+$secondary-1: #FF6D00;
+$secondary-2: #FF9648;
+$secondary-3: #FFB076;
+$secondary-4: #FFD8BA;
+
+$black: #110F15;
+$gray-1: #413F44;
+$gray-2: #88878A;
+$gray-3: #BFBDC1;
+$gray-4: #CFCFD0;
+$gray-5: #D6D6D8;
+
+$white-1: #E8E7E9;
+$white-2: #F9F9F9;
+
+$purple: #2A0E42; 
+$red: #CB1F34; 
+$green: #1FCB4F; 
+$yellow: #F1EB45; 
+
+@mixin animOpacity($duration: 0.2s) {
+  animation: opacity $duration backwards;
+}
+
+@keyframes opacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

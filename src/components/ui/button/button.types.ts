@@ -1,8 +1,10 @@
+import { IconType } from "../icon/icon.types"
+
 export interface IButton {
 	title: string
 	onClick?: () => void
 	disabled?: boolean
-	secondary?: boolean
+	icon: IconType
 	type?:
 		| "button"
 		| "submit"

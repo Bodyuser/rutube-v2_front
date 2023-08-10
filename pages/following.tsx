@@ -1,10 +1,13 @@
-import Following from '@/components/screens/following/Following'
-import { NextPageAuth } from '@/shared/types/props-page/props-page.types'
+import Following from "@/components/screens/following/Following"
+import { NextPageAuth } from "@/shared/types/props-page/props-page.types"
 
-const FollowingPage: NextPageAuth = () => {
-  return <Following />
-}
+const FollowingPage: NextPageAuth =
+	() => {
+		return <Following />
+	}
 
-FollowingPage.isOnlyUser = true
+FollowingPage.title = "Подписки"
+FollowingPage.description =
+	"На кого вы подписаны"
 
 export default FollowingPage

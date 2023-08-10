@@ -1,0 +1,40 @@
+@import "variables";
+
+.videos {
+	margin: 50px 0;
+  width: 100%;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	> h3 {
+		font-size: 22px;
+		font-style: normal;
+		font-weight: 600;
+		line-height: normal;
+		letter-spacing: 0.55px;
+		text-transform: capitalize;
+		color: $black;
+		padding-left: 20px;
+		position: relative;
+		margin: 16px 0;
+
+		&::before {
+			top: 0;
+			content: "";
+			position: absolute;
+			width: 4px;
+			height: 26px;
+			background-color: $primary-1;
+			left: 0;
+		}
+	}
+
+	> div {
+		width: 100%;
+		overflow-x: scroll;
+    display: flex;
+    gap: 24px;
+	}
+}

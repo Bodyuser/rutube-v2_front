@@ -1,0 +1,52 @@
+.modal {
+	position: absolute;
+	background-color: #fff;
+	padding: 20px;
+	min-width: 500px;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+  max-height: 700px;
+  overflow-y: scroll;
+
+	&.square {
+		> .complete {
+			> canvas {
+				border-radius: 50%;
+			}
+		}
+	}
+
+  > div:first-child {
+    position: absolute;
+    font-size: 26px;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+
+	> h3 {
+		margin: 20px 0;
+		text-align: center;
+	}
+
+	> .input {
+		display: flex;
+		justify-content: center;
+		input {
+			display: none;
+		}
+	}
+
+	> .complete {
+		> canvas {
+			margin: 20px auto;
+			display: block;
+		}
+	}
+
+	> button {
+		margin: 20px auto;
+	}
+}

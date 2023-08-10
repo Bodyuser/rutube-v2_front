@@ -5,15 +5,21 @@ import {
 import Header from "./header/Header"
 
 import styles from "./Layout.module.scss"
+import Navbar from "./navbar/Navbar"
 
 const Layout: FC<PropsWithChildren> = ({
 	children,
 }) => {
 	return (
-		<>
-			<Header />
-			<div className={styles.main}>{children}</div>
-		</>
+		<div className={styles.layout}>
+			<Navbar />
+			<div className={styles.main}>
+				<Header />
+				<div className={styles.content}>
+					{children}
+				</div>
+			</div>
+		</div>
 	)
 }
 

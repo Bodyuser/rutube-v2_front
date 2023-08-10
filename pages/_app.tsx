@@ -1,12 +1,19 @@
 import MainProvider from "@/providers/main-provider/MainProvider"
 import "@/assets/styles/globals.scss"
 import type { AppProps } from "next/app"
-import { TypeRoles } from "@/shared/types/props-page/props-page.types"
+import {
+	Seo,
+	TypeRoles,
+} from "@/shared/types/props-page/props-page.types"
+import "react-datepicker/dist/react-datepicker.css"
+import "plyr-react/plyr.css"
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 
+type AppPropsAuth = AppProps &
+	TypeRoles &
+	Seo
 
-type AppPropsAuth = AppProps & TypeRoles
-
-export default function App({
+export function App({
 	Component,
 	pageProps,
 }: AppPropsAuth) {
@@ -17,3 +24,5 @@ export default function App({
 		</MainProvider>
 	)
 }
+
+export default App

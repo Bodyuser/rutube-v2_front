@@ -1,41 +1,43 @@
-import { FilesService } from "@/services/files/files.service"
-import { useMutation } from "@tanstack/react-query"
+import {
+	useUploadImageMutation,
+	useUploadVideoMutation,
+} from "@/redux/api/files.api"
 import { useCallback } from "react"
 
 export const useUpload = (
-	type: "image" | "video",
-	folder: string,
+	type: "image" | "video"
 ) => {
-	const { mutateAsync: uploadImage } =
-		useMutation(
-			["upload image"],
-			(files: any) =>
-				FilesService.uploadImage(
-					files,
-					folder
-				)
-		)
+	const [uploadImage] =
+		useUploadImageMutation()
 
-	const { mutateAsync: uploadVideo } =
-		useMutation(
-			["upload video"],
-			(files: any) =>
-				FilesService.uploadVideo(
-					files,
-					folder
-				)
-		)
+	const [uploadVideo] =
+		useUploadVideoMutation()
 
 	const uploadFile = useCallback(
-		async (file: any) => {
+		async (
+			file: any,
+			folder: string
+		) => {
 			if (file) {
 				if (type === "image") {
+					const formData =
+						new FormData()
+					formData.append("image", file)
 					const response =
-						await uploadImage(file)
+						await uploadImage({
+							folder,
+							formData,
+						})
 					return response
 				} else {
+					const formData =
+						new FormData()
+					formData.append("video", file)
 					const response =
-						await uploadVideo(file)
+						await uploadVideo({
+							folder,
+							formData,
+						})
 					return response
 				}
 			}

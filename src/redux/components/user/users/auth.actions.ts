@@ -7,7 +7,11 @@ import { AuthService } from "@/services/auth/auth.service"
 import { ToastError } from "@/utils/toatsr-error/ToastrError"
 
 import { returnError } from "@/helpers/api.helper"
-import { IFacebook, ILogin, IRegister } from "@/services/auth/auth.types"
+import {
+	IFacebook,
+	ILogin,
+	IRegister,
+} from "@/services/auth/auth.types"
 
 export const Login = createAsyncThunk<
 	IUserProfile,
@@ -20,13 +24,13 @@ export const Login = createAsyncThunk<
 				await AuthService.login(data)
 
 			toastr.success(
-				"Login",
-				"Completed successfully"
+				"Вход",
+				"Прошел успешно"
 			)
 
 			return response
 		} catch (error) {
-			ToastError(error)
+			ToastError(error, "Вход")
 			return thunkApi.rejectWithValue(
 				error
 			)
@@ -46,13 +50,14 @@ export const Register =
 					await AuthService.register(
 						data
 					)
+
 				toastr.success(
-					"Register",
-					"Completed successfully"
+					"Регистрация",
+					"Прошла успешно"
 				)
 				return response
 			} catch (error) {
-				ToastError(error)
+				ToastError(error, "Регистрация")
 				return thunkApi.rejectWithValue(
 					error
 				)
@@ -65,13 +70,17 @@ export const LogOut = createAsyncThunk(
 	async (_, thunkApi) => {
 		try {
 			await AuthService.logout()
+
 			toastr.success(
-				"Log Out",
-				"Completed successfully"
+				"Выход из системы",
+				"Прошел успешно"
 			)
 			return
 		} catch (error) {
-			ToastError(error)
+			ToastError(
+				error,
+				"Выход из системы"
+			)
 			return thunkApi.rejectWithValue(
 				error
 			)
@@ -90,10 +99,6 @@ export const GetNewToken =
 					returnError(error) ===
 					"jwt expired"
 				) {
-					toastr.error(
-						"Logout",
-						"Your authorizaiton is finished, plz sign in again"
-					)
 					thunkApi.dispatch(LogOut())
 				}
 				return thunkApi.rejectWithValue(
@@ -119,16 +124,20 @@ export const ResetPassword =
 			try {
 				const response =
 					await AuthService.resetPassword(
-            { password },
-            resetPasswordLink
+						{ password },
+						resetPasswordLink
 					)
+
 				toastr.success(
-					"Reset password",
-					"Completed successfully"
+					"Сброс пароля",
+					"Прошел успешно"
 				)
 				return response
 			} catch (error) {
-				ToastError(error)
+				ToastError(
+					error,
+					"Сброс пароля"
+				)
 				return thunkApi.rejectWithValue(
 					error
 				)
@@ -136,8 +145,8 @@ export const ResetPassword =
 		}
 	)
 
-
-  export const AuthByGoogle = createAsyncThunk<
+export const AuthByGoogle =
+	createAsyncThunk<
 		IUserProfile,
 		string
 	>(
@@ -145,16 +154,21 @@ export const ResetPassword =
 		async (token, thunkApi) => {
 			try {
 				const response =
-					await AuthService.authByGoogle(token)
+					await AuthService.authByGoogle(
+						token
+					)
 
 				toastr.success(
-					"Auth via Google",
-					"Completed successfully"
+					"Авторизация через Гугл",
+					"Прошел успешно"
 				)
 
 				return response
 			} catch (error) {
-				ToastError(error)
+				ToastError(
+					error,
+					"Авторизация через Гугл"
+				)
 				return thunkApi.rejectWithValue(
 					error
 				)
@@ -162,7 +176,8 @@ export const ResetPassword =
 		}
 	)
 
-  export const AuthByFacebook = createAsyncThunk<
+export const AuthByFacebook =
+	createAsyncThunk<
 		IUserProfile,
 		IFacebook
 	>(
@@ -170,16 +185,21 @@ export const ResetPassword =
 		async (data, thunkApi) => {
 			try {
 				const response =
-					await AuthService.authByFacebook(data)
+					await AuthService.authByFacebook(
+						data
+					)
 
 				toastr.success(
-					"Auth via Facebook",
-					"Completed successfully"
+					"Авторизация через Фейсбук",
+					"Прошел успешно"
 				)
 
 				return response
 			} catch (error) {
-				ToastError(error)
+				ToastError(
+					error,
+					"Авторизация через Фейсбук"
+				)
 				return thunkApi.rejectWithValue(
 					error
 				)

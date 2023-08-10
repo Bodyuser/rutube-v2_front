@@ -1,8 +1,8 @@
-import Video from '@/components/screens/video/Video'
-import { NextPage } from 'next'
+import Video from "@/components/screens/video/Video"
+import { NextPage } from "next"
 
 const VideoPage: NextPage = () => {
-  return <Video />
+	return <Video />
 }
 
 export default VideoPage

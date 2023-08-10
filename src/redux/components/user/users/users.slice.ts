@@ -1,10 +1,22 @@
-import { createSlice } from "@reduxjs/toolkit"
+import {
+	createSlice,
+	current,
+} from "@reduxjs/toolkit"
 
 import { IUserProfile } from "@/shared/types/user/user.types"
 
 import { userState } from "../state"
-import { DeleteProfile, FollowingUnFollowing, GetProfile, UpdateProfile } from "./users.actions"
-import { AuthByFacebook, AuthByGoogle, GetNewToken, LogOut, Login, Register, ResetPassword } from "./auth.actions"
+
+import {
+	AuthByFacebook,
+	AuthByGoogle,
+	GetNewToken,
+	LogOut,
+	Login,
+	Register,
+	ResetPassword,
+} from "./auth.actions"
+import { deleteProfile } from "@/redux/api/users.api"
 
 export const UsersSlice = createSlice({
 	name: "users",
@@ -27,101 +39,6 @@ export const UsersSlice = createSlice({
 	},
 	extraReducers: builder => {
 		builder
-			.addCase(
-				GetProfile.pending,
-				state => {
-					state.isLoading = true
-				}
-			)
-			.addCase(
-				GetProfile.fulfilled,
-				(state, { payload }) => {
-					state.error = null
-					state.isLoading = false
-					state.user = payload
-					state.isAuth = true
-				}
-			)
-			.addCase(
-				GetProfile.rejected,
-				(state, { payload }) => {
-					state.user = null
-					state.isLoading = false
-					state.error = payload
-					state.isAuth = false
-				}
-			)
-			.addCase(
-				UpdateProfile.pending,
-				state => {
-					state.isLoading = true
-				}
-			)
-			.addCase(
-				UpdateProfile.fulfilled,
-				(state, { payload }) => {
-					state.error = null
-					state.user = payload
-					state.isLoading = false
-					state.isAuth = true
-				}
-			)
-			.addCase(
-				UpdateProfile.rejected,
-				(state, { payload }) => {
-					state.user = null
-					state.isLoading = false
-					state.error = payload
-					state.isAuth = false
-				}
-			)
-			.addCase(
-				DeleteProfile.pending,
-				state => {
-					state.isLoading = true
-				}
-			)
-			.addCase(
-				DeleteProfile.fulfilled,
-				state => {
-					state.error = null
-					state.user = null
-					state.isLoading = false
-					state.isAuth = true
-				}
-			)
-			.addCase(
-				DeleteProfile.rejected,
-				(state, { payload }) => {
-					state.user = null
-					state.error = payload
-					state.isLoading = false
-					state.isAuth = false
-				}
-			)
-			.addCase(
-				FollowingUnFollowing.pending,
-				state => {
-					state.isLoading = true
-				}
-			)
-			.addCase(
-				FollowingUnFollowing.fulfilled,
-				state => {
-					state.error = null
-					state.isAuth = true
-					state.isLoading = false
-				}
-			)
-			.addCase(
-				FollowingUnFollowing.rejected,
-				(state, { payload }) => {
-					state.user = null
-					state.error = payload
-					state.isAuth = false
-					state.isLoading = false
-				}
-			)
 			.addCase(
 				Register.pending,
 				state => {
@@ -283,9 +200,18 @@ export const UsersSlice = createSlice({
 					state.isAuth = false
 				}
 			)
+			.addMatcher(
+				deleteProfile.matchFulfilled,
+				(state) => {
+					state.user = null
+				}
+			)
 	},
 })
 
 export const { reducer } = UsersSlice
-export const { setUser, setSocket, setIsJoin } =
-	UsersSlice.actions
+export const {
+	setUser,
+	setSocket,
+	setIsJoin,
+} = UsersSlice.actions

@@ -6,36 +6,51 @@ import styles from './TagInput.module.scss'
 import { toastr } from 'react-redux-toastr'
 
 interface ITagInput {
-  value: any[]
-  onChange: () => void
-  error?: string
+	value: any[]
+	onChange: () => void
+	placeholder: string
+	error?: string
 }
 
-const TagInput: FC<ITagInput> = ({onChange, value, error}) => {
-  return (
+const TagInput: FC<ITagInput> = ({
+	onChange,
+	value,
+	error,
+	placeholder,
+}) => {
+	return (
 		<div className={styles.tagInput}>
 			<TagsInput
 				value={value}
 				onChange={onChange}
-        classNames={{
-          input: styles.input,
-          tag: styles.tag
-        }}
-				placeHolder=""
-        onExisting={(tag) => {
-          toastr.error("Существующий тэг", "Введите несуществующий тэг")
-        }}
-        beforeAddValidate={(tag, existingTags) => {
-          if (existingTags.length >= 10) {
-            toastr.error("Максимальное количество тэгов", "Было введено максимальное количество тэгов")
-           return false
-         }
-         return true
-        }}
-      />
-      {
-        error && <span>{error}</span>
-      }
+				classNames={{
+					input: styles.input,
+					tag: styles.tag,
+				}}
+				placeHolder={placeholder}
+				onExisting={tag => {
+					toastr.error(
+						"Существующий тэг",
+						"Введите несуществующий тэг"
+					)
+				}}
+				beforeAddValidate={(
+					tag,
+					existingTags
+				) => {
+					if (
+						existingTags.length >= 10
+					) {
+						toastr.error(
+							"Максимальное количество тэгов",
+							"Было введено максимальное количество тэгов"
+						)
+						return false
+					}
+					return true
+				}}
+			/>
+			{error && <span>{error}</span>}
 		</div>
 	)
 }
